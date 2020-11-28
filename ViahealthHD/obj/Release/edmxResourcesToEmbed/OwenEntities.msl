@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ViasathealthModelStoreContainer" CdmEntityContainer="ViasathealthEntities">
+    <EntitySetMapping Name="Activity">
+      <EntityTypeMapping TypeName="ViasathealthModel.Activity">
+        <MappingFragment StoreEntitySet="Activity">
+          <ScalarProperty Name="WindowsName" ColumnName="WindowsName" />
+          <ScalarProperty Name="Activity1" ColumnName="Activity" />
+          <ScalarProperty Name="ActLength" ColumnName="ActLength" />
+          <ScalarProperty Name="Yr" ColumnName="Yr" />
+          <ScalarProperty Name="Mnd" ColumnName="Mnd" />
+          <ScalarProperty Name="CurrentTime" ColumnName="CurrentTime" />
+          <ScalarProperty Name="DateKey" ColumnName="DateKey" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DateA" ColumnName="DateA" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Team">
+      <EntityTypeMapping TypeName="ViasathealthModel.Team">
+        <MappingFragment StoreEntitySet="Team">
+          <ScalarProperty Name="WindowsName" ColumnName="WindowsName" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Team1" ColumnName="Team" />
+          <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+          <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Converters">
+      <EntityTypeMapping TypeName="ViasathealthModel.Converter">
+        <MappingFragment StoreEntitySet="Converter">
+          <ScalarProperty Name="Units" ColumnName="Units" />
+          <ScalarProperty Name="Ratio" ColumnName="Ratio" />
+          <ScalarProperty Name="ActivityName" ColumnName="ActivityName" />
+          <ScalarProperty Name="ActivityCode" ColumnName="ActivityCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

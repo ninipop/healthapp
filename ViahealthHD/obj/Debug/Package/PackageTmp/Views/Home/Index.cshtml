@@ -1,0 +1,180 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<script src="~/Scripts/Chart.min.js"></script>
+<script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>
+<script src="/signalr/hubs"></script>
+
+
+<div>
+
+@if (ViewBag.name != null)
+{
+<div class="alert alert-danger" role="alert">
+    Your user has not been assigned a team yet. In the meantime you can add your activities and they will be allocated to your team once you have been assigned.
+</div>
+}
+else
+{
+<div class="alert alert-danger" role="alert">
+    Welcome @ViewBag.name, Team @ViewBag.team needs you!
+</div>
+}
+<div class="card mb-3" id="tobehiden">
+    <div class="card-header">
+        <i class="fa fa-bar-chart"></i> Overall Score
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-8 my-auto">
+                <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0">
+                    </div>
+                    </div>
+                </div>
+                <canvas id="mychart3" width="800" height="365"></canvas>         
+            </div>
+            <div class="col-sm-4 text-center my-auto" id="teamscores">
+        
+            </div>
+        </div>
+    </div>
+    <div class="card-footer small text-muted" id="footer"></div>
+</div>
+<div id="slideAd"><h3 id="number">5</h3> Days left!</div>
+</div>
+<script>
+    var datachart2 = {
+        labels: [],
+        datasets: [{
+            label: '',
+    
+            backgroundColor: ["#ff0000", "#ffdc00","#41ec00","#4152ec"],
+            borderWidth: 2,
+            data: []
+        },
+        ]
+    };
+
+    $(function () {
+
+        $.get("/api/teamscores/", function (data)
+        {
+            var parsedscores = JSON.parse(data);
+            var scoreboard = $('#teamscores');
+            console.log(parsedscores);
+            for (var item in parsedscores)
+            {
+                scoreboard.append('<div class="small text-muted">' + parsedscores[item].Team + '<div>');
+                scoreboard.append('<div class="h4 mb-0 text-primary">'+ parsedscores[item].Minutes + '<div>');
+                scoreboard.append('<hr>');
+            } 
+
+
+        }
+
+            );
+    })
+
+
+    $(function () {
+
+        var today = new Date().getTime();
+        var deadline = new Date ('2018,05,16');
+        var difference = deadline.getTime() - today;
+        difference = (Math.floor(difference / 86400000));
+
+        $('#number').text(difference);
+        
+               
+        var $slideAd = $('#slideAd');
+
+        $slideAd.delay(5000).animate({ 'right': '0px' }, 250);
+        $slideAd.delay(5000).animate({ 'right': '-300px' }, 250);
+        
+        
+    });
+
+    $(function () {
+        getdata();
+        
+        var notificationFromHub = $.connection.myHub1;
+      
+        // Connect to signalr hub
+        $.connection.hub.start().done(function () {
+        });
+
+        // Notify to client with the recent updates
+        notificationFromHub.client.updatedClients = function () {
+            $('#teamscores').empty();
+            $.get("/api/teamscores/", function (data)
+            {
+
+                var parsedscores = JSON.parse(data);
+                var scoreboard = $('#teamscores');
+
+                for (var item in parsedscores)
+                {
+                    scoreboard.append('<div class="small text-muted">' + parsedscores[item].Team + '<div>');
+                    scoreboard.append('<div class="h4 mb-0 text-primary">'+ parsedscores[item].Minutes + '<div>');
+                    scoreboard.append('<hr>');
+                } 
+
+
+            })
+
+
+        
+        };
+        
+        function getdata() {
+            $.getJSON('@Url.Content("/api/teamscores/")', function (data) {
+                var data = JSON.parse(data)
+                for (var i = 0; i <= data.length - 1; i++) {
+                    datachart2.labels.push(data[i].Team);
+                    datachart2.datasets[0].data.push(data[i].Minutes)
+                }
+                var ctx1 = document.getElementById("mychart3").getContext("2d");
+                window.myBar = new Chart(ctx1,
+                    {
+                        type: 'bar',
+                        data: datachart2,
+                        options:
+                            {
+                                title:
+                                 {
+                                     display: true,
+                                     text: "My Team"
+                                 },
+                                responsive: true,
+                                maintainAspectRatio: true,
+
+                                legend:
+                                {
+                                    display: false
+                                }
+
+
+                            },
+
+
+                    });
+            })
+
+        }
+    }
+    )
+</script>
+<script>
+
+
+    //var d = new Date().toDateString();
+    var modified = document.lastModified;
+    var el = document.getElementById('footer')
+    el.textContent = "Last updated on " + "" + modified;
+
+
+
+    $('#tobehiden').hide().fadeIn(500);
+    
+
+</script>

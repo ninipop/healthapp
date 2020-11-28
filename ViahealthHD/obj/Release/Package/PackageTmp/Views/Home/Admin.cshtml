@@ -1,0 +1,151 @@
+﻿
+
+@{
+    ViewBag.Title = "Admin";
+}
+
+<h2>Admin</h2>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+   Manage Team Names
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Team Names</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("teamname", "api", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+                <div class="row justify-content-center mx-auto" style="padding-bottom:20px" id="form">
+                    <input type="text" name="name" class="form-control" id="" aria-describedby="textgelp" placeholder="Enter team name" required>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+                    <table class="table table-bordered">
+                        <thead>
+
+                        </thead>
+                        <tbody id="teamnames"></tbody>
+
+                    </table>
+               
+}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Team</th>
+        </tr>
+    </thead>
+    <tbody id=""></tbody>
+</table>
+<script>
+    $(function () {
+        $.getJSON("/api/unassigned/", function (data) {
+            data = JSON.parse(data);
+            var x;
+            var table = $("tbody[id!=teamnames]");
+
+            for (x in data) {
+                table.append("<tr><td>" + data[x].Username + "</td><td><div class='dropdown'><button class='btn btn-secondary dropdown-toggle' type='button' id='dropdownMenuButton' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' >Dropdown button</button > <div class='dropdown-menu' aria-labelledby='dropdownMenuButton'></div></div ><button type='button' class='btn btn-primary thisbtn'>Primary</button></td></tr>");
+
+            }
+        }).done(function () {
+            $.getJSON("/api/listofteams", function (data1) {
+                data1 = JSON.parse(data1);
+                $(".dropdown-menu").each(function () {
+                    var selector = $(this);
+                    var x;
+
+                    for (x in data1) {
+                        selector.append("<a class='dropdown-item'>" + data1[x].name + '</a>')
+                    }
+
+                })
+            }).done(function () {
+                $(".dropdown-item").click(function (e) {
+
+                    var currentselection = e.target.parentElement.parentElement.firstChild;
+                    var selected = e.target.textContent
+                    currentselection.textContent = selected
+
+
+                })
+
+                $(".thisbtn").click(function (e) {
+                    e.preventDefault();
+                    var datapackage = {}
+                    //datapackage.Team = 
+                    datapackage.teamnames = {}
+                    datapackage.teamnames.name = e.target.parentElement.parentElement.children[1].children[0].firstChild.textContent;
+                    datapackage.Username = e.target.parentElement.parentElement.children[0].textContent
+                    console.log(datapackage)
+                    $.ajax({
+                        url: "/api/createmap/",
+                        data: datapackage,
+                        method: "POST",
+                    })
+                })
+            })
+        });
+
+
+
+    });
+
+    $(function () {
+        $.getJSON("/api/listofteams/", function (data) {
+            var data = JSON.parse(data)
+            for (var x in data) {
+                $("#teamnames").append("<tr><td>" + data[x].name + "</td><td><button class='btn btn-primary deleteteam' data-id="+data[x].Id+">Delete</button></tr>")
+            }
+        }).done(function () {
+            $(".deleteteam").on("click", function (e) {
+                e.preventDefault();
+                $(".alert").remove();
+                var teamid = this.attributes["data-id"].value
+                teamName = {};
+                teamName.Id = teamid
+                $.ajax({
+                    url: "/api/deleteteam/",
+                    data: teamName,
+                    method: "POST",
+            
+                }).done(function (data,xhr,xbl) {
+                    console.log(data)
+                  
+                    if (data != "Ok") {
+                        $("#form").after("<div class='alert alert-danger'role='alert'>This team is already assigned to a user and can therefore not be deleted</div >")
+
+                    }
+                    console.log(xhr)
+                    console.log(xbl)
+                        })
+
+
+            })
+        })
+    }
+        )
+
+</script>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

@@ -1,0 +1,69 @@
+﻿body {
+    /*padding-top: 50px;*/
+    /*padding-bottom: 20px;*/
+    /*background-image: url('colorado_landscape_4k-1280x720.jpg');*/
+    /*background-size: 100% auto;*/
+    background: #9CECFB;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #0052D4, #65C7F7, #9CECFB);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #0052D4, #65C7F7, #9CECFB);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+}
+
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+
+
+#slideAd {
+  width: 200px;
+  height:100px;
+  background-color: #403c3b;
+  background-image: url('../Content/adverlion.png');
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  color: #fff;
+  border-top: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  padding: 25px 5px 10px 85px;
+  position: fixed;
+  top:100px;
+  right: -400px;
+}
+
+.zoom {
+
+
+    transition: transform .2s; /* Animation */
+  
+    margin: 0 auto;
+}
+
+.zoom:hover {
+    transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+
+

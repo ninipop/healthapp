@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ViasathealthModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Activity">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="WindowsName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Activity" Type="int" Nullable="false" />
+    <Property Name="ActLength" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Yr" Type="int" Nullable="false" />
+    <Property Name="Mnd" Type="int" Nullable="false" />
+    <Property Name="CurrentTime" Type="datetime" />
+    <Property Name="DateKey" Type="int" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DateA" Type="date" />
+  </EntityType>
+  <EntityType Name="Converter">
+    <Key>
+      <PropertyRef Name="ActivityCode" />
+    </Key>
+    <Property Name="ActivityCode" Type="int" Nullable="false" />
+    <Property Name="ActivityName" Type="nchar" MaxLength="50" />
+    <Property Name="Ratio" Type="int" />
+    <Property Name="Units" Type="nchar" MaxLength="20" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'ViasatHealthCopy.dbo.Team' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Team">
+    <Key>
+      <PropertyRef Name="FromDate" />
+    </Key>
+    <Property Name="WindowsName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Team" Type="nvarchar" MaxLength="50" />
+    <Property Name="FromDate" Type="date" Nullable="false" />
+    <Property Name="ToDate" Type="date" />
+  </EntityType>
+  <EntityContainer Name="ViasathealthModelStoreContainer">
+    <EntitySet Name="Activity" EntityType="Self.Activity" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Converter" EntityType="Self.Converter" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Team" EntityType="Self.Team" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [Team].[WindowsName] AS [WindowsName], 
+    [Team].[Name] AS [Name], 
+    [Team].[Team] AS [Team], 
+    [Team].[FromDate] AS [FromDate], 
+    [Team].[ToDate] AS [ToDate]
+    FROM [dbo].[Team] AS [Team]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,91 @@
+﻿@model ViahealthHD.Models.RegisterViewModel
+
+
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @*@Html.AntiForgeryToken()
+        <h4>Create a new account.</h4>
+        <hr />
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Username)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-primary btn-lg btn-block login-button" value="Register" />
+            </div>
+        </div>*@
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger mx-auto" })
+    <div class="row">
+
+        <div class="col-md-4 mx-auto">
+
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Sign In</h5>
+                        <div class="form-label-group">
+                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control mx-auto", @placeholder = "Username" })
+                            @Html.ValidationMessageFor(m => m.Username)
+                        </div>
+
+                        <div class="form-label-group">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control mx-auto", @placeholder = "Email", @required="" })
+                            @Html.ValidationMessageFor(m => m.Email,"", new { @class = "text-danger mx-auto" })
+
+                        </div>
+
+                        <div class="form-label-group">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control mx-auto", @placeholder = "Password" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger mx-auto" })
+
+                        </div>
+                        <div class="form-label-group">
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control mx-auto", @placeholder = "Confirm Password" })
+                            @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text mx-auto" })
+
+                        </div>
+
+                        <button class="btn btn-primary btn-block text-uppercase" type="submit">Create account</button>
+
+                        <hr class="my-4">
+
+                
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

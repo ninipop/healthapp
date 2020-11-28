@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ViasathealthModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Activity">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="WindowsName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Activity1" Type="Int32" Nullable="false" />
+    <Property Name="ActLength" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="Yr" Type="Int32" Nullable="false" />
+    <Property Name="Mnd" Type="Int32" Nullable="false" />
+    <Property Name="CurrentTime" Type="DateTime" Precision="3" />
+    <Property Name="DateKey" Type="Int32" />
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DateA" Type="DateTime" Precision="0" />
+  </EntityType>
+  <EntityType Name="Team">
+    <Key>
+      <PropertyRef Name="FromDate" />
+    </Key>
+    <Property Name="WindowsName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Team1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FromDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="ToDate" Type="DateTime" Precision="0" />
+  </EntityType>
+  <EntityContainer Name="ViasathealthEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Activity" EntityType="Self.Activity" />
+    <EntitySet Name="Team" EntityType="Self.Team" />
+    <EntitySet Name="Converters" EntityType="ViasathealthModel.Converter" />
+  </EntityContainer>
+  <EntityType Name="Converter">
+    <Key>
+      <PropertyRef Name="ActivityCode" />
+    </Key>
+    <Property Name="ActivityCode" Type="Int32" Nullable="false" />
+    <Property Name="ActivityName" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="Ratio" Type="Int32" />
+    <Property Name="Units" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+  </EntityType>
+</Schema>
